@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'user_model.dart';
+import 'user_model.dart' as user;
 
 //import necessary packages
 class ShowTasksPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _ShowTasksPageState extends State<ShowTasksPage> {
                   child: const Text('REGISTER'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      int check = await registerUser(
+                      int check = await user.registerUser(
                           firstnameController.text,
                           lastnameController.text,
                           usernameController.text,
@@ -75,7 +75,7 @@ class _ShowTasksPageState extends State<ShowTasksPage> {
                               height: 50.0,
                               child: const Center(
                                 child: Text(
-                                  'Failed to Register User',
+                                  'Successfuly Registered New User',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),

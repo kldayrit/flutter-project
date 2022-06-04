@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'register_page.dart';
+import 'user_model.dart' as user;
+import 'post_page.dart';
 
 void main() => runApp(const MyApp());
 
@@ -67,13 +69,55 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 child: const Text('LOGIN'),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-                    usernameController.clear();
-                    passwordController.clear();
+                    int check = await user.loginUser(
+                        usernameController.text, passwordController.text);
+                    if (check == 200) {
+                      //display success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.blue,
+                          content: Container(
+                            height: 50.0,
+                            child: const Center(
+                              child: Text(
+                                'Login Succesful',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                      usernameController.clear();
+                      passwordController.clear();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ShowPostPage()));
+                    } else {
+                      //display error message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Container(
+                            height: 50.0,
+                            child: const Center(
+                              child: Text(
+                                'Failed to Login using credentials',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   }
                 },
               ),

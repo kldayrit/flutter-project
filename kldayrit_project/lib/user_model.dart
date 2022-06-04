@@ -1,9 +1,10 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-//import necessary packages
 import 'package:http/http.dart' as http;
 
+//global variable for token
+String token = "empty";
+
+// function to Register User
 Future<int> registerUser(
     String firstname, String lastname, String username, String pasword) async {
   final response = await http.post(
@@ -21,5 +22,32 @@ Future<int> registerUser(
     }),
   );
 
+  return response.statusCode;
+}
+
+//functin to Log in User
+
+Future<int> loginUser(String username, String pasword) async {
+  final response = await http.post(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/login'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'password': pasword,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    // parse  json data to map
+    var jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    // get the value of the data key from the map
+    var data = jsonData['data'] as Map<String, dynamic>;
+    // get the value of the token key from data
+    token = data['token'];
+  }
   return response.statusCode;
 }
