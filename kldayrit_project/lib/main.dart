@@ -60,10 +60,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             Container(
                 padding: const EdgeInsets.all(10),
-                child: buildTextField('Enter Username', usernameController)),
+                child: buildTextField(
+                    'Enter Username', usernameController, false)),
             Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: buildTextField('Enter Password', passwordController)),
+                child:
+                    buildTextField('Enter Password', passwordController, true)),
             Container(
               height: 50,
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -146,8 +148,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController _controller) {
+  Widget buildTextField(
+      String label, TextEditingController _controller, bool password) {
     return TextFormField(
+      obscureText: password,
       controller: _controller,
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
@@ -160,7 +164,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           labelStyle: const TextStyle(color: Color.fromARGB(255, 11, 69, 169)),
           floatingLabelStyle:
               const TextStyle(color: Color.fromARGB(255, 90, 113, 241)),
-          errorText: _validate ? 'Value can\'t be empty' : null),
+          errorText: _validate ? 'Field can\'t be empty' : null),
       style: const TextStyle(color: Colors.indigo),
       validator: (value) {
         //validates if value in controller/textfield is not empty

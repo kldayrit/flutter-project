@@ -14,6 +14,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Posts"),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {},
