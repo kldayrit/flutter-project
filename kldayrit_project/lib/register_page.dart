@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'user_model.dart';
 
 //import necessary packages
 class ShowTasksPage extends StatefulWidget {
@@ -37,32 +38,77 @@ class _ShowTasksPageState extends State<ShowTasksPage> {
                   )),
               Container(
                 padding: const EdgeInsets.all(10),
-                child: buildTextField('Enter First Name', firstnameController),
+                child: buildTextField(
+                    'Enter First Name', firstnameController, false),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
-                child: buildTextField('Enter Last Name', lastnameController),
+                child: buildTextField(
+                    'Enter Last Name', lastnameController, false),
               ),
               Container(
                   padding: const EdgeInsets.all(10),
-                  child: buildTextField('Enter Username', usernameController)),
+                  child: buildTextField(
+                      'Enter Username', usernameController, false)),
               Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: buildTextField('Enter Password', passwordController)),
+                  child: buildTextField(
+                      'Enter Password', passwordController, true)),
               Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   child: const Text('REGISTER'),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
-                      firstnameController.clear();
-                      lastnameController.clear();
-                      usernameController.clear();
-                      passwordController.clear();
+                      int check = await registerUser(
+                          firstnameController.text,
+                          lastnameController.text,
+                          usernameController.text,
+                          passwordController.text);
+                      if (check == 200) {
+                        //display success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.blue,
+                            content: Container(
+                              height: 50.0,
+                              child: const Center(
+                                child: Text(
+                                  'Failed to Register User',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                        firstnameController.clear();
+                        lastnameController.clear();
+                        usernameController.clear();
+                        passwordController.clear();
+                      } else {
+                        //display error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Container(
+                              height: 50.0,
+                              child: const Center(
+                                child: Text(
+                                  'Failed to Register User',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),
@@ -74,8 +120,10 @@ class _ShowTasksPageState extends State<ShowTasksPage> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController _controller) {
+  Widget buildTextField(
+      String label, TextEditingController _controller, bool password) {
     return TextFormField(
+      obscureText: password,
       controller: _controller,
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
@@ -88,7 +136,7 @@ class _ShowTasksPageState extends State<ShowTasksPage> {
           labelStyle: const TextStyle(color: Color.fromARGB(255, 11, 69, 169)),
           floatingLabelStyle:
               const TextStyle(color: Color.fromARGB(255, 90, 113, 241)),
-          errorText: _validate ? 'Value can\'t be empty' : null),
+          errorText: _validate ? 'Field can\'t be empty' : null),
       style: const TextStyle(color: Colors.indigo),
       validator: (value) {
         //validates if value in controller/textfield is not empty
