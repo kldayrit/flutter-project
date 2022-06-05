@@ -75,7 +75,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   if (_formKey.currentState!.validate()) {
                     int check = await user.loginUser(
                         usernameController.text, passwordController.text);
-                    check = await user.getallPost();
                     if (check == 200) {
                       //display success message
                       ScaffoldMessenger.of(context).showSnackBar(
