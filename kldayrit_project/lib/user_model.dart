@@ -71,8 +71,21 @@ Future<int> getUser() async {
     var data = jsonData['data'] as Map<String, dynamic>;
     first = data['firstName'];
     last = data['lastName'];
-    print(first);
-    print(last);
+  }
+  return response.statusCode;
+}
+
+Future<int> logoutUser() async {
+  final response = await http.post(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/logout'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    token = 'empty';
   }
   return response.statusCode;
 }

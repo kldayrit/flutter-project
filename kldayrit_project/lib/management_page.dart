@@ -43,20 +43,15 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
                 style: TextStyle(fontSize: 20),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                user.last,
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
             TextButton(
               child: const Text(
                 'LOGOUT',
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                int check = await user.logoutUser();
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
             )
           ],
         ),
