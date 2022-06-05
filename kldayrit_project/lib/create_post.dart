@@ -15,6 +15,7 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
     'private',
   ];
   TextEditingController textController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {

@@ -53,7 +53,7 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
                 //pop pushed pages until you get to the login page
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
-            )
+            ),
           ],
         ),
       ),

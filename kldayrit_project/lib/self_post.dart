@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:kldayrit_project/management_page.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'user_model.dart' as user;
 import 'post_model.dart';
-import 'create_post.dart';
-import 'self_post.dart';
+import 'package:http/http.dart' as http;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ShowPostPage extends StatefulWidget {
-  const ShowPostPage({Key? key}) : super(key: key);
+class ShowSelfPostPage extends StatefulWidget {
+  const ShowSelfPostPage({Key? key}) : super(key: key);
 
   @override
-  _ShowPostPageState createState() => _ShowPostPageState();
+  _ShowSelfPostPageState createState() => _ShowSelfPostPageState();
 }
 
-class _ShowPostPageState extends State<ShowPostPage> {
+class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
   String id = ''; // get the id of the last from the list to put on next
   List<Post> posts = []; // list of post
+  String self = user.user;
+
   final RefreshController refreshController =
       RefreshController(initialRefresh: true); // refresh controller
 
@@ -27,7 +26,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
     }
     final response = await http.get(
         Uri.parse(
-            'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post?limit=40&next=$id'),
+            'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post?limit=10&next=$id&username=$self'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ' + user.token,
@@ -56,33 +55,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Posts"),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.align_horizontal_right),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ShowSelfPostPage()));
-          },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              int check = await user.getUser();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ShowManagementPage()));
-            },
-            icon: const Icon(
-              Icons.account_box,
-              size: 40,
-            ),
-            tooltip: 'My Profile',
-          )
-        ],
+        title: const Text("Own Posts"),
       ),
       body: SmartRefresher(
         controller: refreshController,
@@ -106,9 +79,6 @@ class _ShowPostPageState extends State<ShowPostPage> {
         child: ListView.builder(
           itemBuilder: ((context, index) {
             final post = posts[index];
-            if (!post.public) {
-              return Container();
-            }
             return Column(
               children: [
                 ListTile(
@@ -139,15 +109,6 @@ class _ShowPostPageState extends State<ShowPostPage> {
           }),
           itemCount: posts.length,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const ShowPostCreatePage()));
-        },
-        child: const Icon(Icons.post_add_outlined),
       ),
     );
   }
