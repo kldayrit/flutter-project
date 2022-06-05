@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kldayrit_project/management_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'user_model.dart' as user;
 import 'post_model.dart';
@@ -17,6 +18,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: true); // refresh controller
 
+  // this method is inside this because we want to use setState()
   Future<bool> getallPost({bool isRefresh = false}) async {
     if (isRefresh) {
       id = '';
@@ -56,8 +58,17 @@ class _ShowPostPageState extends State<ShowPostPage> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.list),
+            onPressed: () async {
+              int check = await user.getUser();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ShowManagementPage()));
+            },
+            icon: const Icon(
+              Icons.account_box,
+              size: 40,
+            ),
             tooltip: 'My Profile',
           )
         ],
@@ -87,9 +98,32 @@ class _ShowPostPageState extends State<ShowPostPage> {
             if (!post.public) {
               return Container();
             }
-
-            return ListTile(
-              title: Text(post.text),
+            return Column(
+              children: [
+                ListTile(
+                  title: TextButton(
+                      onPressed: () {},
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          post.username,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      )),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(left: 35),
+                    child: Text(post.text),
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.account_tree,
+                      size: 25,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                const Divider()
+              ],
             );
           }),
           itemCount: posts.length,

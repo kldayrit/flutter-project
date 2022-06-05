@@ -6,6 +6,9 @@ import 'post_model.dart';
 String token = "empty";
 List<Post> posts = [];
 String pagination = '';
+String user = '';
+String last = '';
+String first = '';
 
 // function to Register User
 Future<int> registerUser(
@@ -43,14 +46,33 @@ Future<int> loginUser(String username, String pasword) async {
   );
 
   if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    // parse  json data to map
     var jsonData = jsonDecode(response.body) as Map<String, dynamic>;
     // get the value of the data key from the map
     var data = jsonData['data'] as Map<String, dynamic>;
     // get the value of the token key from data
     token = data['token'];
+    user = username;
+  }
+  return response.statusCode;
+}
+
+Future<int> getUser() async {
+  final response = await http.get(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user/$user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    var jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    // get the value of the data key from the map
+    var data = jsonData['data'] as Map<String, dynamic>;
+    first = data['firstName'];
+    last = data['lastName'];
+    print(first);
+    print(last);
   }
   return response.statusCode;
 }
