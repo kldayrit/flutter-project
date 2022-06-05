@@ -4,6 +4,7 @@ import 'package:kldayrit_project/management_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'user_model.dart' as user;
 import 'post_model.dart';
+import 'create_post.dart';
 
 class ShowPostPage extends StatefulWidget {
   const ShowPostPage({Key? key}) : super(key: key);
@@ -128,6 +129,15 @@ class _ShowPostPageState extends State<ShowPostPage> {
           }),
           itemCount: posts.length,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ShowPostCreatePage()));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -89,3 +89,22 @@ Future<int> logoutUser() async {
   }
   return response.statusCode;
 }
+
+Future<int> createPost(String text, String isPublic) async {
+  bool public = false;
+  if (isPublic == 'public') {
+    public = true;
+  }
+  final response = await http.post(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body:
+        jsonEncode(<String, String>{'text': text, 'public': public.toString()}),
+  );
+
+  if (response.statusCode == 200) {}
+  return response.statusCode;
+}
