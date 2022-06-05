@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 //global variable for token
 String token = "empty";
+late List<dynamic> test;
 
 // function to Register User
 Future<int> registerUser(
@@ -48,6 +49,25 @@ Future<int> loginUser(String username, String pasword) async {
     var data = jsonData['data'] as Map<String, dynamic>;
     // get the value of the token key from data
     token = data['token'];
+  }
+  return response.statusCode;
+}
+
+Future<int> getallPost() async {
+  final response = await http.get(
+      Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ' + token,
+      });
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    // parse  json data to map
+    var jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+    // get the value of the token key from data
+    test = jsonData['data'] as List<dynamic>;
   }
   return response.statusCode;
 }

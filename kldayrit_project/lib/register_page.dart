@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'user_model.dart' as user;
 
 //import necessary packages
-class ShowTasksPage extends StatefulWidget {
-  const ShowTasksPage({Key? key}) : super(key: key);
+class ShowRegisterPage extends StatefulWidget {
+  const ShowRegisterPage({Key? key}) : super(key: key);
 
   @override
-  _ShowTasksPageState createState() => _ShowTasksPageState();
+  _ShowRegisterPageState createState() => _ShowRegisterPageState();
 }
 
-class _ShowTasksPageState extends State<ShowTasksPage> {
+class _ShowRegisterPageState extends State<ShowRegisterPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController firstnameController = TextEditingController();

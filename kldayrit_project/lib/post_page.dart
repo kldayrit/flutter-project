@@ -23,7 +23,16 @@ class _ShowPostPageState extends State<ShowPostPage> {
           )
         ],
       ),
-      body: Text(user.token.toString()),
+      body: ListView.builder(
+        itemCount: user.test.length,
+        itemBuilder: (context, index) {
+          return Center(
+            child: ListTile(
+              title: Text(user.test[index]['text']),
+            ),
+          );
+        },
+      ),
     );
   }
 }

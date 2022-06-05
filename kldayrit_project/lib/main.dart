@@ -75,6 +75,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   if (_formKey.currentState!.validate()) {
                     int check = await user.loginUser(
                         usernameController.text, passwordController.text);
+                    check = await user.getallPost();
                     if (check == 200) {
                       //display success message
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -126,7 +127,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Row(
               children: <Widget>[
-                const Text('Do not have an Account? Cry or'),
+                const Text('No Account? '),
                 TextButton(
                   child: const Text(
                     'REGISTER',
@@ -136,7 +137,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ShowTasksPage()));
+                            builder: (context) => const ShowRegisterPage()));
                   },
                 )
               ],
