@@ -21,7 +21,7 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
       padding: EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('propayl'),
+          title: const Text('Profile'),
         ),
         body: ListView(
           children: <Widget>[

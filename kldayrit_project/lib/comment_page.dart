@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:kldayrit_project/view_profile.dart';
 import 'user_model.dart' as user;
-import 'post_model.dart';
+import 'comment_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'management_page.dart';
-import 'comment_page.dart';
 
-class ShowSelfPostPage extends StatefulWidget {
-  const ShowSelfPostPage({Key? key}) : super(key: key);
+class ShowCommentPage extends StatefulWidget {
+  const ShowCommentPage({Key? key}) : super(key: key);
 
   @override
-  _ShowSelfPostPageState createState() => _ShowSelfPostPageState();
+  _ShowCommentPageState createState() => _ShowCommentPageState();
 }
 
-class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
+class _ShowCommentPageState extends State<ShowCommentPage> {
+  String post = user.post;
   String id = ''; // get the id of the last from the list to put on next
-  List<Post> posts = []; // list of post
+  List<Comment> comments = []; // list of post
   String self = user.user;
 
   final RefreshController refreshController =
@@ -28,7 +29,7 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
     }
     final response = await http.get(
         Uri.parse(
-            'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post?limit=10&next=$id&username=$self'),
+            'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/comment/$post?next=$id'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ' + user.token,
@@ -38,14 +39,18 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       // parse  json data to map
-      final result = postDataFromJson(response.body);
+      final result = commentDataFromJson(response.body);
 
       if (isRefresh) {
-        posts = result.data;
+        comments = result.data;
       } else {
-        posts.addAll(result.data);
+        comments.addAll(result.data);
       }
-      id = result.data[result.data.length - 1].id;
+      if (result.data.isNotEmpty) {
+        id = result.data[result.data.length - 1].id;
+      } else {
+        id = '';
+      }
       setState(() {});
       return true;
     } else {
@@ -80,18 +85,28 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
         },
         child: ListView.builder(
           itemBuilder: ((context, index) {
-            final post = posts[index];
+            final post = comments[index];
             return Column(
               children: [
                 ListTile(
                   title: TextButton(
                     onPressed: () async {
-                      int check = await user.getUser(user.user);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ShowManagementPage()));
+                      if (user.user != post.username) {
+                        int check = await user.getUser(post.username);
+                        user.view = post.username;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ShowViewProfilePage()));
+                      } else {
+                        int check = await user.getUser(user.user);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ShowManagementPage()));
+                      }
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -110,15 +125,7 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                       Icons.account_tree,
                       size: 25,
                     ),
-                    onPressed: () {
-                      user.post = post.id;
-                      user.title = post.username;
-                      user.subtitle = post.text;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ShowCommentPage()));
-                    },
+                    onPressed: () {},
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),
@@ -129,8 +136,12 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
               ],
             );
           }),
-          itemCount: posts.length,
+          itemCount: comments.length,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.post_add_outlined),
       ),
     );
   }

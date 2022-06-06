@@ -89,6 +89,7 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
                         lastnameController.clear();
                         usernameController.clear();
                         passwordController.clear();
+                        Navigator.of(context).pop();
                       } else {
                         //display error message
                         ScaffoldMessenger.of(context).showSnackBar(

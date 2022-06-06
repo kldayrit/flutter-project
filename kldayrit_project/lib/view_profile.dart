@@ -20,7 +20,7 @@ class _ShowViewProfilePageState extends State<ShowViewProfilePage> {
       padding: EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(user.view + '\'s Page'),
+          title: Text(user.view + '\'s Profile'),
         ),
         body: ListView(
           children: <Widget>[

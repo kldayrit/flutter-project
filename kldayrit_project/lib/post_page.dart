@@ -7,6 +7,7 @@ import 'post_model.dart';
 import 'create_post.dart';
 import 'self_post.dart';
 import 'view_profile.dart';
+import 'comment_page.dart';
 
 class ShowPostPage extends StatefulWidget {
   const ShowPostPage({Key? key}) : super(key: key);
@@ -148,7 +149,15 @@ class _ShowPostPageState extends State<ShowPostPage> {
                       Icons.account_tree,
                       size: 25,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      user.post = post.id;
+                      user.title = post.username;
+                      user.subtitle = post.text;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ShowCommentPage()));
+                    },
                   ),
                 ),
                 const Divider()
@@ -165,7 +174,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
               MaterialPageRoute(
                   builder: (context) => const ShowPostCreatePage()));
         },
-        child: const Icon(Icons.post_add_outlined),
+        child: const Icon(Icons.add),
       ),
     );
   }

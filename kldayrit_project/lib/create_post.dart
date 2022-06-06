@@ -15,7 +15,6 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
     'private',
   ];
   TextEditingController textController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
       padding: EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Kreate Post'),
+          title: const Text('Create Post'),
         ),
         body: ListView(
           children: <Widget>[

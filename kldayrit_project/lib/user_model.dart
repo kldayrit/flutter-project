@@ -8,6 +8,9 @@ String user = '';
 String last = '';
 String first = '';
 String view = '';
+String post = '';
+String title = '';
+String subtitle = '';
 
 // function to Register User
 Future<int> registerUser(
@@ -130,3 +133,5 @@ Future<int> updateUser(String firstname, String lastname, String oldPassword,
 
   return response.statusCode;
 }
+
+//get followers
