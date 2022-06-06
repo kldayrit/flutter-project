@@ -176,6 +176,7 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          user.check = false;
           Navigator.push(
               context,
               MaterialPageRoute(

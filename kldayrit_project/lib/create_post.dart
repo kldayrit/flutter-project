@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'post_page.dart';
+import 'self_post.dart';
 import 'user_model.dart' as user;
 
 class ShowPostCreatePage extends StatefulWidget {
@@ -78,7 +80,7 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
                         height: 50.0,
                         child: const Center(
                           child: Text(
-                            'Pull up to Refresh to See post',
+                            'Post Created',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -88,7 +90,14 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
                       ),
                     ),
                   );
+                  Navigator.pop(
+                      context); // pop dalawang beses tapus push ulit yung list
                   Navigator.pop(context);
+                  //pushes second page again
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => user.check ?const ShowPostPage() : const ShowSelfPostPage()));
                 },
               ),
             ),

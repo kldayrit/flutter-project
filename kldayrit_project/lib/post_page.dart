@@ -169,6 +169,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          user.check = true;
           Navigator.push(
               context,
               MaterialPageRoute(

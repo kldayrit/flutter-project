@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'management_page.dart';
 import 'user_model.dart' as user;
 
 class ShowUpdateProfilePage extends StatefulWidget {
@@ -90,7 +91,6 @@ class _ShowUpdateProfilePageState extends State<ShowUpdateProfilePage> {
                         lastnameController.clear();
                         oldpasswordController.clear();
                         newpasswordController.clear();
-                        Navigator.pop(context);
                       } else {
                         //display error message
                         ScaffoldMessenger.of(context).showSnackBar(
