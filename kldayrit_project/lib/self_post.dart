@@ -102,6 +102,10 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                     ),
                     onPressed: () {},
                   ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {},
+                  ),
                 ),
                 const Divider()
               ],

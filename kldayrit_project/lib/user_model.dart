@@ -56,6 +56,7 @@ Future<int> loginUser(String username, String pasword) async {
   return response.statusCode;
 }
 
+// function to get a User
 Future<int> getUser() async {
   final response = await http.get(
     Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user/$user'),
@@ -75,6 +76,7 @@ Future<int> getUser() async {
   return response.statusCode;
 }
 
+// function to logout user
 Future<int> logoutUser() async {
   final response = await http.post(
     Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/logout'),
@@ -90,6 +92,7 @@ Future<int> logoutUser() async {
   return response.statusCode;
 }
 
+// function to createpost
 Future<int> createPost(String text, String isPublic) async {
   bool public = false;
   if (isPublic == 'public') {
@@ -106,5 +109,25 @@ Future<int> createPost(String text, String isPublic) async {
   );
 
   if (response.statusCode == 200) {}
+  return response.statusCode;
+}
+
+// function to update profile
+Future<int> updateUser(String firstname, String lastname, String oldPassword,
+    String newPassword) async {
+  final response = await http.put(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user/$user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: jsonEncode(<String, String>{
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+      'firstName': firstname,
+      'lastName': lastname,
+    }),
+  );
+
   return response.statusCode;
 }

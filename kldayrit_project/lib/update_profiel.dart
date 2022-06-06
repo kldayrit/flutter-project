@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'user_model.dart' as user;
 
-//import necessary packages
-class ShowRegisterPage extends StatefulWidget {
-  const ShowRegisterPage({Key? key}) : super(key: key);
+class ShowUpdateProfilePage extends StatefulWidget {
+  const ShowUpdateProfilePage({Key? key}) : super(key: key);
 
   @override
-  _ShowRegisterPageState createState() => _ShowRegisterPageState();
+  _ShowUpdateProfilePageState createState() => _ShowUpdateProfilePageState();
 }
 
-class _ShowRegisterPageState extends State<ShowRegisterPage> {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController lastnameController = TextEditingController();
+class _ShowUpdateProfilePageState extends State<ShowUpdateProfilePage> {
+  TextEditingController oldpasswordController = TextEditingController(text: "");
+  TextEditingController newpasswordController = TextEditingController(text: "");
+  TextEditingController firstnameController =
+      TextEditingController(text: user.first);
+  TextEditingController lastnameController =
+      TextEditingController(text: user.last);
   final bool _validate = false; //used for validation of input
   final _formKey = GlobalKey<FormState>();
 
@@ -23,7 +24,7 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
       padding: const EdgeInsets.all(10),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Register Page"),
+          title: const Text("Update Profile"),
         ),
         body: Form(
           key: _formKey,
@@ -33,7 +34,7 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
                   child: const Text(
-                    'REGiSTER',
+                    'UPDATE PROFILE',
                     style: TextStyle(fontSize: 20),
                   )),
               Container(
@@ -49,23 +50,23 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
               Container(
                   padding: const EdgeInsets.all(10),
                   child: buildTextField(
-                      'Enter Username', usernameController, false)),
+                      'Enter Old Password', oldpasswordController, true)),
               Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: buildTextField(
-                      'Enter Password', passwordController, true)),
+                      'Enter New Password', newpasswordController, true)),
               Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
-                  child: const Text('REGISTER'),
+                  child: const Text('UPDATE'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      int check = await user.registerUser(
+                      int check = await user.updateUser(
                           firstnameController.text,
                           lastnameController.text,
-                          usernameController.text,
-                          passwordController.text);
+                          oldpasswordController.text,
+                          newpasswordController.text);
                       if (check == 200) {
                         //display success message
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +76,7 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
                               height: 50.0,
                               child: const Center(
                                 child: Text(
-                                  'Successfuly Registered New User',
+                                  'Profile Updated\nExit and Return to Profile to See Changes',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -87,8 +88,8 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
                         );
                         firstnameController.clear();
                         lastnameController.clear();
-                        usernameController.clear();
-                        passwordController.clear();
+                        oldpasswordController.clear();
+                        newpasswordController.clear();
                       } else {
                         //display error message
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -98,7 +99,7 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
                               height: 50.0,
                               child: const Center(
                                 child: Text(
-                                  'Failed to Register User',
+                                  'Failed to Update Profile',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -140,6 +141,10 @@ class _ShowRegisterPageState extends State<ShowRegisterPage> {
       style: const TextStyle(color: Colors.indigo),
       validator: (value) {
         //validates if value in controller/textfield is not empty
+        //allow no changes in pasword
+        if (password && value!.isEmpty) {
+          return null;
+        }
         if (value == null || value.isEmpty) {
           return 'Please $label';
         }
