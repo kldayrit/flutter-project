@@ -55,7 +55,7 @@ class _ShowViewProfilePageState extends State<ShowViewProfilePage> {
                 style: TextStyle(fontSize: 20),
               ),
               onPressed: () async {
-                int check = await user.followUser();
+                int check = await user.followUser(user.view);
                 if (check == 200) {
                   //display success message
                   ScaffoldMessenger.of(context).showSnackBar(

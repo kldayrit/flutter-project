@@ -293,9 +293,23 @@ Future<int> getFollower() async {
 }
 
 //function to follow a user
-Future<int> followUser() async {
+Future<int> followUser(String id) async {
   final response = await http.post(
-    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/follow/$view'),
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/follow/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: jsonEncode(<String, String>{}),
+  );
+
+  if (response.statusCode == 200) {}
+  return response.statusCode;
+}
+
+Future<int> removeFollow(String id) async {
+  final response = await http.delete(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/follow/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,

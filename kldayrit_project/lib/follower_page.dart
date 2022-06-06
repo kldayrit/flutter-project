@@ -21,6 +21,32 @@ class _ShowFollowerPageState extends State<ShowFollowerPage> {
           return Center(
             child: ListTile(
               title: Text(follow.username),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete_forever_sharp),
+                onPressed: () async {
+                  int check = await user.removeFollow(follow.username);
+                  if (check == 200) {
+                    //display success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blue,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'SUCCESSFULLY UNFOLLOWED USER',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           );
         },
