@@ -61,7 +61,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
         title: const Text("Posts"),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: const Icon(Icons.align_horizontal_right),
+          icon: const Icon(Icons.chrome_reader_mode),
           onPressed: () {
             Navigator.push(
                 context,
@@ -79,7 +79,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
                       builder: (context) => const ShowManagementPage()));
             },
             icon: const Icon(
-              Icons.account_box,
+              Icons.settings,
               size: 40,
             ),
             tooltip: 'My Profile',
@@ -146,7 +146,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
                   ),
                   leading: IconButton(
                     icon: const Icon(
-                      Icons.account_tree,
+                      Icons.comment_outlined,
                       size: 25,
                     ),
                     onPressed: () {
@@ -174,7 +174,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
               MaterialPageRoute(
                   builder: (context) => const ShowPostCreatePage()));
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.post_add_outlined),
       ),
     );
   }

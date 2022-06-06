@@ -5,6 +5,7 @@ import 'comment_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'management_page.dart';
+import 'create_comment.dart';
 
 class ShowCommentPage extends StatefulWidget {
   const ShowCommentPage({Key? key}) : super(key: key);
@@ -62,7 +63,7 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Own Posts"),
+        title: const Text("Comments"),
       ),
       body: SmartRefresher(
         controller: refreshController,
@@ -86,6 +87,52 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
         child: ListView.builder(
           itemBuilder: ((context, index) {
             final post = comments[index];
+            // if own comment put a delete icon beside it
+            if (post.username == user.user) {
+              return Column(
+                children: [
+                  ListTile(
+                    title: TextButton(
+                      onPressed: () async {
+                        if (user.user != post.username) {
+                          int check = await user.getUser(post.username);
+                          user.view = post.username;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowViewProfilePage()));
+                        } else {
+                          int check = await user.getUser(user.user);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowManagementPage()));
+                        }
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          post.username,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(left: 35),
+                      child: Text(post.text),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {},
+                    ),
+                    leading: const Icon(Icons.clear_all),
+                  ),
+                  const Divider()
+                ],
+              );
+            }
             return Column(
               children: [
                 ListTile(
@@ -120,17 +167,7 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
                     padding: const EdgeInsets.only(left: 35),
                     child: Text(post.text),
                   ),
-                  leading: IconButton(
-                    icon: const Icon(
-                      Icons.account_tree,
-                      size: 25,
-                    ),
-                    onPressed: () {},
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {},
-                  ),
+                  leading: const Icon(Icons.clear_all),
                 ),
                 const Divider()
               ],
@@ -140,8 +177,13 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.post_add_outlined),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ShowCommentCreatePage()));
+        },
+        child: const Icon(Icons.add_comment_outlined),
       ),
     );
   }

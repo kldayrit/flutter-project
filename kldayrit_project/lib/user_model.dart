@@ -106,8 +106,10 @@ Future<int> createPost(String text, String isPublic) async {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,
     },
-    body:
-        jsonEncode(<String, String>{'text': text, 'public': public.toString()}),
+    body: jsonEncode(<String, String>{
+      'text': text,
+      'public': public.toString(),
+    }),
   );
 
   if (response.statusCode == 200) {}
@@ -134,4 +136,19 @@ Future<int> updateUser(String firstname, String lastname, String oldPassword,
   return response.statusCode;
 }
 
-//get followers
+// function to createpost
+Future<int> createComment(String text) async {
+  final response = await http.post(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/comment/$post'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: jsonEncode(<String, String>{
+      'text': text,
+    }),
+  );
+
+  if (response.statusCode == 200) {}
+  return response.statusCode;
+}
