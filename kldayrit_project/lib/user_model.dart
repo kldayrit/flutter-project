@@ -152,3 +152,18 @@ Future<int> createComment(String text) async {
   if (response.statusCode == 200) {}
   return response.statusCode;
 }
+
+//delete a comment on a post
+Future<int> deleteComment(String id, String postId) async {
+  final response = await http.delete(
+    Uri.parse(
+        'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/comment/$postId/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+  );
+
+  if (response.statusCode == 200) {}
+  return response.statusCode;
+}

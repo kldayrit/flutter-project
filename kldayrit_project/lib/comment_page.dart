@@ -125,7 +125,29 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () {},
+                      onPressed: () async {
+                        int check =
+                            await user.deleteComment(post.id, post.postId);
+                        if (check == 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.blue,
+                              content: Container(
+                                height: 50.0,
+                                child: const Center(
+                                  child: Text(
+                                    'Delete Successful\nPull up to Refresh to see Changes',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
                     leading: const Icon(Icons.clear_all),
                   ),
