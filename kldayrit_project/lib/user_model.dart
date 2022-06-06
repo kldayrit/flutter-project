@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'post_model.dart';
 
-//global variable for token
+//global variable for user details
 String token = "empty";
-List<Post> posts = [];
-String pagination = '';
 String user = '';
 String last = '';
 String first = '';
+String view = '';
 
 // function to Register User
 Future<int> registerUser(
@@ -57,9 +56,9 @@ Future<int> loginUser(String username, String pasword) async {
 }
 
 // function to get a User
-Future<int> getUser() async {
+Future<int> getUser(String id) async {
   final response = await http.get(
-    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user/$user'),
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,

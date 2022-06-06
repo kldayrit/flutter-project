@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kldayrit_project/update_profile.dart';
 import 'user_model.dart' as user;
 
-class ShowManagementPage extends StatefulWidget {
-  const ShowManagementPage({Key? key}) : super(key: key);
+class ShowViewProfilePage extends StatefulWidget {
+  const ShowViewProfilePage({Key? key}) : super(key: key);
 
   @override
-  _ShowManagementPageState createState() => _ShowManagementPageState();
+  _ShowViewProfilePageState createState() => _ShowViewProfilePageState();
 }
 
-class _ShowManagementPageState extends State<ShowManagementPage> {
+class _ShowViewProfilePageState extends State<ShowViewProfilePage> {
   @override
   void initState() {
     super.initState();
@@ -21,7 +20,7 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
       padding: EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('propayl'),
+          title: Text(user.view + '\'s Page'),
         ),
         body: ListView(
           children: <Widget>[
@@ -32,7 +31,7 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: Text(
-                user.user,
+                user.view,
                 style: TextStyle(fontSize: 30),
               ),
             ),
@@ -52,27 +51,19 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
             ),
             TextButton.icon(
               label: const Text(
-                'EDIT PROFILE',
+                'FOLLOW',
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ShowUpdateProfilePage()));
-              },
-              icon: const Icon(Icons.edit),
+              onPressed: () async {},
+              icon: const Icon(Icons.star_border_purple500),
             ),
-            TextButton(
-              child: const Text(
-                'LOGOUT',
+            TextButton.icon(
+              label: const Text(
+                'VIEW POSTS',
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () async {
-                int check = await user.logoutUser();
-                //pop pushed pages until you get to the login page
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              },
+              onPressed: () async {},
+              icon: const Icon(Icons.remove_red_eye_outlined),
             ),
           ],
         ),

@@ -6,6 +6,7 @@ import 'user_model.dart' as user;
 import 'post_model.dart';
 import 'create_post.dart';
 import 'self_post.dart';
+import 'view_profile.dart';
 
 class ShowPostPage extends StatefulWidget {
   const ShowPostPage({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              int check = await user.getUser();
+              int check = await user.getUser(user.user);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -113,7 +114,24 @@ class _ShowPostPageState extends State<ShowPostPage> {
               children: [
                 ListTile(
                   title: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (user.user != post.username) {
+                          int check = await user.getUser(post.username);
+                          user.view = post.username;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowViewProfilePage()));
+                        } else {
+                          int check = await user.getUser(user.user);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowManagementPage()));
+                        }
+                      },
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
