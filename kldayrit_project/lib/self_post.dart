@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kldayrit_project/create_post.dart';
 import 'user_model.dart' as user;
 import 'post_model.dart';
 import 'package:http/http.dart' as http;
@@ -150,7 +151,17 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                         icon: const Icon(Icons.edit),
                       ), // icon-1
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          user.post = post.id;
+                          int check = await user.deletePost();
+                          Navigator.pop(context); // pop current page
+                          //pushes second page again
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowSelfPostPage()));
+                        },
                         icon: const Icon(Icons.delete),
                       ), // icon-2
                     ],
@@ -162,6 +173,15 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
           }),
           itemCount: posts.length,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ShowPostCreatePage()));
+        },
+        child: const Icon(Icons.post_add_outlined),
       ),
     );
   }

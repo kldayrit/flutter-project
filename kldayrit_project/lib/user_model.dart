@@ -192,3 +192,15 @@ Future<int> updatePost(String text, String isPublic) async {
 
   return response.statusCode;
 }
+
+Future<int> deletePost() async {
+  final response = await http.delete(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post/$post'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+  );
+
+  return response.statusCode;
+}
