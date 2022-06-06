@@ -54,7 +54,29 @@ class _ShowViewProfilePageState extends State<ShowViewProfilePage> {
                 'FOLLOW',
                 style: TextStyle(fontSize: 20),
               ),
-              onPressed: () async {},
+              onPressed: () async {
+                int check = await user.followUser();
+                if (check == 200) {
+                  //display success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.blue,
+                      content: Container(
+                        height: 50.0,
+                        child: const Center(
+                          child: Text(
+                            'Successfuly Followed User',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
               icon: const Icon(Icons.star_border_purple500),
             ),
             TextButton.icon(

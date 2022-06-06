@@ -291,3 +291,18 @@ Future<int> getFollower() async {
   }
   return response.statusCode;
 }
+
+//function to follow a user
+Future<int> followUser() async {
+  final response = await http.post(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/follow/$view'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: jsonEncode(<String, String>{}),
+  );
+
+  if (response.statusCode == 200) {}
+  return response.statusCode;
+}
