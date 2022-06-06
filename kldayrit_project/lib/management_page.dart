@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kldayrit_project/update_profile.dart';
 import 'user_model.dart' as user;
+import 'follower_page.dart';
 
 class ShowManagementPage extends StatefulWidget {
   const ShowManagementPage({Key? key}) : super(key: key);
@@ -10,11 +11,6 @@ class ShowManagementPage extends StatefulWidget {
 }
 
 class _ShowManagementPageState extends State<ShowManagementPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -62,6 +58,20 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
                         builder: (context) => const ShowUpdateProfilePage()));
               },
               icon: const Icon(Icons.edit),
+            ),
+            TextButton.icon(
+              label: const Text(
+                'VIEW FOLLOWERS',
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () async {
+                int check = await user.getFollower();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ShowFollowerPage()));
+              },
+              icon: const Icon(Icons.remove_red_eye_outlined),
             ),
             TextButton(
               child: const Text(

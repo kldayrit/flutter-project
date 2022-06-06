@@ -4,7 +4,7 @@ import 'post_model.dart';
 
 //global variable for user details
 String token = "empty";
-String user = '';
+String user = ''; // id of user that is logged in
 //can be updated to view details on another user
 String last = '';
 String first = '';
@@ -19,6 +19,71 @@ String subtitle = '';
 //check lang if san ginawa post
 bool check =
     true; // if true sa list ng lahat ng public post na create if hinde sa list ng sariling post
+
+// for list of followers
+List<Follower> followers = [];
+// To parse this JSON data, do
+//
+//     final FollowerData = FollowerDataFromJson(jsonString);
+
+// clas for list of followers
+FollowerData followerDataFromJson(String str) =>
+    FollowerData.fromJson(json.decode(str));
+
+String followerDataToJson(FollowerData data) => json.encode(data.toJson());
+
+class FollowerData {
+  bool success;
+  List<Follower> data;
+
+  FollowerData({
+    required this.success,
+    required this.data,
+  });
+
+  factory FollowerData.fromJson(Map<String, dynamic> json) => FollowerData(
+        success: json["success"],
+        data:
+            List<Follower>.from(json["data"].map((x) => Follower.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
+}
+
+class Follower {
+  String username;
+  String firstName;
+  String lastName;
+  int date;
+  int updated;
+
+  Follower({
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.date,
+    required this.updated,
+  });
+
+  factory Follower.fromJson(Map<String, dynamic> json) => Follower(
+        username: json["username"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        date: json["date"],
+        updated: json["updated"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "firstName": firstName,
+        "lastName": lastName,
+        "date": date,
+        "updated": updated,
+      };
+}
 
 // function to Register User
 Future<int> registerUser(
@@ -196,6 +261,7 @@ Future<int> updatePost(String text, String isPublic) async {
   return response.statusCode;
 }
 
+// function to delete post
 Future<int> deletePost() async {
   final response = await http.delete(
     Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post/$post'),
@@ -205,5 +271,23 @@ Future<int> deletePost() async {
     },
   );
 
+  return response.statusCode;
+}
+
+// function to get follower list
+Future<int> getFollower() async {
+  final response = await http.get(
+    Uri.parse(
+        'https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/user?friends=true'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final result = followerDataFromJson(response.body);
+    followers = result.data;
+  }
   return response.statusCode;
 }
