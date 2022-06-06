@@ -90,6 +90,7 @@ class _ShowUpdateProfilePageState extends State<ShowUpdateProfilePage> {
                         lastnameController.clear();
                         oldpasswordController.clear();
                         newpasswordController.clear();
+                        Navigator.pop(context);
                       } else {
                         //display error message
                         ScaffoldMessenger.of(context).showSnackBar(

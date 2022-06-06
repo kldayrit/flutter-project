@@ -5,11 +5,16 @@ import 'post_model.dart';
 //global variable for user details
 String token = "empty";
 String user = '';
+//can be updated to view details on another user
 String last = '';
 String first = '';
+//view is for the username of the post you  want to view
 String view = '';
+//post is id of post itself
 String post = '';
-String title = '';
+//title is username of the post
+String title = ''; // will also be used on determining if post is public or not
+//subtitle is the text
 String subtitle = '';
 
 // function to Register User
@@ -165,5 +170,25 @@ Future<int> deleteComment(String id, String postId) async {
   );
 
   if (response.statusCode == 200) {}
+  return response.statusCode;
+}
+
+Future<int> updatePost(String text, String isPublic) async {
+  bool public = false;
+  if (isPublic == 'public') {
+    public = true;
+  }
+  final response = await http.put(
+    Uri.parse('https://cmsc-23-2022-bfv6gozoca-as.a.run.app/api/post/$post'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: jsonEncode(<String, String>{
+      'text': text,
+      'public': public.toString(),
+    }),
+  );
+
   return response.statusCode;
 }

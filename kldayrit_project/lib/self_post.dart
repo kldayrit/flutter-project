@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'management_page.dart';
 import 'comment_page.dart';
+import 'edit_post.dart';
 
 class ShowSelfPostPage extends StatefulWidget {
   const ShowSelfPostPage({Key? key}) : super(key: key);
@@ -105,24 +106,54 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                     padding: const EdgeInsets.only(left: 35),
                     child: Text(post.text),
                   ),
-                  leading: IconButton(
-                    icon: const Icon(
-                      Icons.account_tree,
-                      size: 25,
-                    ),
-                    onPressed: () {
-                      user.post = post.id;
-                      user.title = post.username;
-                      user.subtitle = post.text;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ShowCommentPage()));
-                    },
+                  leading: Wrap(
+                    spacing: -40,
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(
+                          Icons.comment,
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          user.post = post.id;
+                          user.title = post.username;
+                          user.subtitle = post.text;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowCommentPage()));
+                        },
+                      ),
+                      Container(
+                        child: Text(
+                          post.public ? 'Public' : 'Private',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ],
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {},
+                  trailing: Wrap(
+                    spacing: 0, // space between two icons
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          user.post = post.id;
+                          user.title = post.public ? 'public' : 'private';
+                          user.subtitle = post.text;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowPostEditPage()));
+                        },
+                        icon: const Icon(Icons.edit),
+                      ), // icon-1
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.delete),
+                      ), // icon-2
+                    ],
                   ),
                 ),
                 const Divider()
