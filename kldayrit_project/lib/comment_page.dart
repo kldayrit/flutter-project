@@ -247,6 +247,26 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
         },
         child: const Icon(Icons.add_comment_outlined),
       ),
+      bottomNavigationBar: Container(
+        child: ListTile(
+            title: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  user.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(
+                  left: 20, right: 10, top: 10, bottom: 10),
+              child: Text(user.subtitle,
+                  style: const TextStyle(color: Colors.white, fontSize: 17)),
+            )),
+        color: Colors.lightBlue,
+      ),
     );
   }
 }
