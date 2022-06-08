@@ -18,6 +18,7 @@ String subtitle = '';
 //check lang if san ginawa post
 bool check =
     false; // if true sa list ng lahat ng public post na create if hinde sa list ng sariling post
+// gagamitin na rin pang check if finofollow mo yung tao
 // for list of followers
 List<Follower> followers = [];
 // To parse this JSON data, do
