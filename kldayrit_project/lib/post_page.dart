@@ -73,13 +73,32 @@ class _ShowPostPageState extends State<ShowPostPage> {
           IconButton(
             onPressed: () async {
               int check = await user.getUser(user.user);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ShowManagementPage()));
+              if (check == 200) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ShowManagementPage()));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Container(
+                      height: 50.0,
+                      child: const Center(
+                        child: Text(
+                          'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
             },
             icon: const Icon(
-              Icons.settings,
+              Icons.list_alt,
               size: 40,
             ),
             tooltip: 'My Profile',
@@ -119,18 +138,58 @@ class _ShowPostPageState extends State<ShowPostPage> {
                         if (user.user != post.username) {
                           int check = await user.getUser(post.username);
                           user.view = post.username;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ShowViewProfilePage()));
+                          if (check == 200) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ShowViewProfilePage()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Container(
+                                  height: 50.0,
+                                  child: const Center(
+                                    child: Text(
+                                      'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                         } else {
                           int check = await user.getUser(user.user);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ShowManagementPage()));
+                          if (check == 200) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ShowManagementPage()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Container(
+                                  height: 50.0,
+                                  child: const Center(
+                                    child: Text(
+                                      'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                         }
                       },
                       child: Align(
@@ -169,7 +228,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          user.check = true;
+          user.check = true; // nagsasabi kung saan page gumawa ng post
           Navigator.push(
               context,
               MaterialPageRoute(

@@ -40,23 +40,43 @@ class _ShowCommentCreatePageState extends State<ShowCommentCreatePage> {
                 child: const Text('COMMENT'),
                 onPressed: () async {
                   int check = await user.createComment(textController.text);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.blue,
-                      content: Container(
-                        height: 50.0,
-                        child: const Center(
-                          child: Text(
-                            'Comment Created \n Pull up to Refresh to See Comment',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
+                  if (check == 200) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blue,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Comment Created \n Pull up to Refresh to See Comment',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Failed to Create Comment\nRestart the App or Try again later',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                   Navigator.pop(context);
                 },
               ),

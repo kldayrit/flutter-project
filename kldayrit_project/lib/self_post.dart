@@ -89,11 +89,31 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                   title: TextButton(
                     onPressed: () async {
                       int check = await user.getUser(user.user);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ShowManagementPage()));
+                      if (check == 200) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ShowManagementPage()));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Container(
+                              height: 50.0,
+                              child: const Center(
+                                child: Text(
+                                  'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,
@@ -154,6 +174,43 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
                         onPressed: () async {
                           user.post = post.id;
                           int check = await user.deletePost();
+                          if (check == 200) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.blue,
+                                content: Container(
+                                  height: 50.0,
+                                  child: const Center(
+                                    child: Text(
+                                      'Delete Successful\nPull up to Refresh to see Changes',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Container(
+                                  height: 50.0,
+                                  child: const Center(
+                                    child: Text(
+                                      'Failed to Delete Post\nRestart the App or Try again later',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                           Navigator.pop(context); // pop current page
                           //pushes second page again
                           Navigator.push(

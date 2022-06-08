@@ -66,10 +66,30 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
               ),
               onPressed: () async {
                 int check = await user.getFollower();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ShowFollowerPage()));
+                if (check == 200) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ShowFollowerPage()));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Container(
+                        height: 50.0,
+                        child: const Center(
+                          child: Text(
+                            'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
               },
               icon: const Icon(Icons.remove_red_eye_outlined),
             ),
@@ -81,7 +101,27 @@ class _ShowManagementPageState extends State<ShowManagementPage> {
               onPressed: () async {
                 int check = await user.logoutUser();
                 //pop pushed pages until you get to the login page
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                if (check == 200) {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Container(
+                        height: 50.0,
+                        child: const Center(
+                          child: Text(
+                            'Failed to Log out\nTry again later',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
               },
             ),
           ],

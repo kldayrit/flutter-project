@@ -3,6 +3,7 @@ import 'register_page.dart';
 import 'user_model.dart' as user;
 import 'post_page.dart';
 
+// the main or the login page
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -66,6 +67,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child:
                     buildTextField('Enter Password', passwordController, true)),
+            const Divider(
+              thickness: 10,
+            ),
             Container(
               height: 50,
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

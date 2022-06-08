@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'post_model.dart';
 
 //global variable for user details
 String token = "empty";
@@ -159,6 +158,7 @@ Future<int> logoutUser() async {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + token,
     },
+    body: jsonEncode(<String, String>{}),
   );
 
   if (response.statusCode == 200) {

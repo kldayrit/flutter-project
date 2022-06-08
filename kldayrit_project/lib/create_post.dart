@@ -21,7 +21,7 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Create Post'),
@@ -30,7 +30,7 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
           children: <Widget>[
             Container(
               alignment: Alignment.topRight,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: DropdownButton(
                 iconSize: 50,
                 value: _dropdownvalue,
@@ -73,31 +73,53 @@ class _ShowPostCreatePageState extends State<ShowPostCreatePage> {
                 onPressed: () async {
                   int check = await user.createPost(
                       textController.text, _dropdownvalue);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.blue,
-                      content: Container(
-                        height: 50.0,
-                        child: const Center(
-                          child: Text(
-                            'Post Created',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
+                  if (check == 200) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blue,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Post Created',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                  Navigator.pop(
-                      context); // pop dalawang beses tapus push ulit yung list
-                  Navigator.pop(context);
-                  //pushes second page again
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => user.check ?const ShowPostPage() : const ShowSelfPostPage()));
+                    );
+                    Navigator.pop(
+                        context); // pop dalawang beses tapus push ulit yung list
+                    Navigator.pop(context);
+                    //pushes second page again
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => user.check
+                                ? const ShowPostPage()
+                                : const ShowSelfPostPage()));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Failed to Create Post\nRestart the App or Try again later',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
             ),

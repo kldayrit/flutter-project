@@ -72,23 +72,43 @@ class _ShowPostEditPageState extends State<ShowPostEditPage> {
                 onPressed: () async {
                   int check = await user.updatePost(
                       textController.text, _dropdownvalue);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.blue,
-                      content: Container(
-                        height: 50.0,
-                        child: const Center(
-                          child: Text(
-                            'Pull up to Refresh to See post',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
+                  if (check == 200) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blue,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Pull up to Refresh to See post',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Failed to Edit Post\nRestart the App or Try again later',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                   Navigator.pop(context);
                 },
               ),

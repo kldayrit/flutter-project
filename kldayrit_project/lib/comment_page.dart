@@ -94,21 +94,31 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
                   ListTile(
                     title: TextButton(
                       onPressed: () async {
-                        if (user.user != post.username) {
-                          int check = await user.getUser(post.username);
-                          user.view = post.username;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ShowViewProfilePage()));
-                        } else {
-                          int check = await user.getUser(user.user);
+                        int check = await user.getUser(user.user);
+                        if (check == 200) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const ShowManagementPage()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Container(
+                                height: 50.0,
+                                child: const Center(
+                                  child: Text(
+                                    'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
                         }
                       },
                       child: Align(
@@ -146,6 +156,24 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
                               ),
                             ),
                           );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Container(
+                                height: 50.0,
+                                child: const Center(
+                                  child: Text(
+                                    'Failed to Delete Comment\nRestart the App or Try again later',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
                         }
                       },
                     ),
@@ -155,26 +183,38 @@ class _ShowCommentPageState extends State<ShowCommentPage> {
                 ],
               );
             }
+            // pag di sariling comment
             return Column(
               children: [
                 ListTile(
                   title: TextButton(
                     onPressed: () async {
-                      if (user.user != post.username) {
-                        int check = await user.getUser(post.username);
-                        user.view = post.username;
+                      int check = await user.getUser(post.username);
+                      user.view = post.username;
+                      if (check == 200) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     const ShowViewProfilePage()));
                       } else {
-                        int check = await user.getUser(user.user);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ShowManagementPage()));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Container(
+                              height: 50.0,
+                              child: const Center(
+                                child: Text(
+                                  'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: Align(

@@ -34,7 +34,25 @@ class _ShowFollowerPageState extends State<ShowFollowerPage> {
                           height: 50.0,
                           child: const Center(
                             child: Text(
-                              'SUCCESSFULLY UNFOLLOWED USER',
+                              'Successfully unfollowed user\n Exit and Return to Page to See changes',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Container(
+                          height: 50.0,
+                          child: const Center(
+                            child: Text(
+                              'Failed to Remove Follower\nRestart the App or Try again later',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
