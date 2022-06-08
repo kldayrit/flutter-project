@@ -81,6 +81,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         usernameController.text, passwordController.text);
                     if (check == 200) {
                       //display success message
+                      check = await user.getFollower();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.blue,

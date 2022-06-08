@@ -17,8 +17,7 @@ String title = ''; // will also be used on determining if post is public or not
 String subtitle = '';
 //check lang if san ginawa post
 bool check =
-    true; // if true sa list ng lahat ng public post na create if hinde sa list ng sariling post
-
+    false; // if true sa list ng lahat ng public post na create if hinde sa list ng sariling post
 // for list of followers
 List<Follower> followers = [];
 // To parse this JSON data, do

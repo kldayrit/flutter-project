@@ -18,7 +18,7 @@ class ShowSelfPostPage extends StatefulWidget {
 class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
   String id = ''; // get the id of the last from the list to put on next
   List<Post> posts = []; // list of post
-  String self = user.user;
+  String self = user.check ? user.view : user.user;
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: true); // refresh controller
@@ -59,7 +59,9 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Own Posts"),
+        title: user.check
+            ? Text(user.view + '\'s Posts')
+            : const Text("Own Posts"),
       ),
       body: SmartRefresher(
         controller: refreshController,
@@ -83,6 +85,83 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
         child: ListView.builder(
           itemBuilder: ((context, index) {
             final post = posts[index];
+            if (user.check) {
+              return Column(
+                children: [
+                  ListTile(
+                    title: TextButton(
+                      onPressed: () async {
+                        int check = await user.getUser(user.user);
+                        if (check == 200) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShowManagementPage()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Container(
+                                height: 50.0,
+                                child: const Center(
+                                  child: Text(
+                                    'Unable to Retrieve Data from Server\nRestart the App or Try again later',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          post.username,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(left: 35),
+                      child: Text(post.text),
+                    ),
+                    leading: Wrap(
+                      spacing: -40,
+                      children: <Widget>[
+                        IconButton(
+                          icon: const Icon(
+                            Icons.comment,
+                            size: 25,
+                          ),
+                          onPressed: () {
+                            user.post = post.id;
+                            user.title = post.username;
+                            user.subtitle = post.text;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ShowCommentPage()));
+                          },
+                        ),
+                        Container(
+                          child: Text(
+                            post.public ? 'Public' : 'Private',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider()
+                ],
+              );
+            }
             return Column(
               children: [
                 ListTile(
@@ -231,16 +310,18 @@ class _ShowSelfPostPageState extends State<ShowSelfPostPage> {
           itemCount: posts.length,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          user.check = false;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const ShowPostCreatePage()));
-        },
-        child: const Icon(Icons.post_add_outlined),
-      ),
+      floatingActionButton: user.check
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                user.check = false;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ShowPostCreatePage()));
+              },
+              child: const Icon(Icons.post_add_outlined),
+            ),
     );
   }
 }

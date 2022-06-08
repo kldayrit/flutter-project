@@ -63,6 +63,7 @@ class _ShowPostPageState extends State<ShowPostPage> {
         leading: IconButton(
           icon: const Icon(Icons.chrome_reader_mode),
           onPressed: () {
+            user.check = false;
             Navigator.push(
                 context,
                 MaterialPageRoute(
