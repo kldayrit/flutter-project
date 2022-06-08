@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text('Login or Register')),
         body: const MyStatefulWidget(),
       ),
+      theme: ThemeData(primarySwatch: Colors.indigo),
     );
   }
 }
@@ -36,9 +37,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Form(
+    return Scaffold(
+      body: Form(
         key: _formKey,
         child: ListView(
           children: <Widget>[
