@@ -156,7 +156,7 @@ void main() {
       expect(find.text('Failed to Register User'), findsOneWidget);
     });
 
-    testWidgets('Check Post Creation', (tester) async {
+    testWidgets('Test Post Creation', (tester) async {
       await tester.pumpWidget(app.MyApp());
       final Finder username =
           find.widgetWithText(TextFormField, 'Enter Username');
@@ -167,7 +167,7 @@ void main() {
       expect(find.text('Login Succesful'), findsNothing);
 
       //input credentials
-      await tester.enterText(username, 'walapanamanata');
+      await tester.enterText(username, 'awit');
       await addDelay(3000);
       await tester.enterText(password, '123');
       await addDelay(3000);
@@ -205,6 +205,101 @@ void main() {
       expect(find.text('please sana mahanap mo to'), findsOneWidget);
     });
 
+    testWidgets('Test Edit Post', (tester) async {
+      await tester.pumpWidget(app.MyApp());
+      final Finder username =
+          find.widgetWithText(TextFormField, 'Enter Username');
+      final Finder password =
+          find.widgetWithText(TextFormField, 'Enter Password');
+      final Finder submit = find.widgetWithText(ElevatedButton, 'LOGIN');
+
+      expect(find.text('Login Succesful'), findsNothing);
+
+      //input credentials
+      await tester.enterText(username, 'awit');
+      await addDelay(3000);
+      await tester.enterText(password, '123');
+      await addDelay(3000);
+      await tester.tap(submit);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      // must succeed
+      expect(find.text('Login Succesful'), findsOneWidget);
+
+      final Finder self =
+          find.widgetWithIcon(IconButton, Icons.chrome_reader_mode);
+
+      await tester.tap(self);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      expect(find.text('please sana mahanap mo to'), findsOneWidget);
+
+      final Finder edit = find.widgetWithIcon(IconButton, Icons.edit);
+
+      await tester.tap(edit);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      expect(find.text('Edit Post'), findsOneWidget);
+
+      final Finder post =
+          find.widgetWithText(TextField, 'Type your post here...');
+      final Finder send = find.widgetWithText(ElevatedButton, 'EDIT POST');
+
+      await tester.enterText(post, 'please lang');
+      await tester.pumpAndSettle();
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
+      await tester.tap(send);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      expect(find.text('please lang'), findsOneWidget);
+    });
+    testWidgets('Test Delete Post', (tester) async {
+      await tester.pumpWidget(app.MyApp());
+      final Finder username =
+          find.widgetWithText(TextFormField, 'Enter Username');
+      final Finder password =
+          find.widgetWithText(TextFormField, 'Enter Password');
+      final Finder submit = find.widgetWithText(ElevatedButton, 'LOGIN');
+
+      expect(find.text('Login Succesful'), findsNothing);
+
+      //input credentials
+      await tester.enterText(username, 'awit');
+      await addDelay(3000);
+      await tester.enterText(password, '123');
+      await addDelay(3000);
+      await tester.tap(submit);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      // must succeed
+      expect(find.text('Login Succesful'), findsOneWidget);
+
+      final Finder self =
+          find.widgetWithIcon(IconButton, Icons.chrome_reader_mode);
+
+      await tester.tap(self);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      final Finder delete = find.widgetWithIcon(IconButton, Icons.delete);
+
+      await tester.tap(delete);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+    });
     testWidgets('Check View Profile', (tester) async {
       await tester.pumpWidget(app.MyApp());
       final Finder username =
@@ -228,9 +323,9 @@ void main() {
       // must succeed
       expect(find.text('Login Succesful'), findsOneWidget);
 
-      final Finder user = find.widgetWithIcon(IconButton, Icons.list_alt);
+      final Finder me = find.widgetWithIcon(IconButton, Icons.list_alt);
 
-      await tester.tap(user);
+      await tester.tap(me);
       await addDelay(3000);
       await tester.pumpAndSettle();
       await addDelay(3000);
@@ -239,7 +334,47 @@ void main() {
       expect(find.text('Profile'), findsOneWidget);
     });
 
-    testWidgets('Overall- test all required features at once', (tester) async {
+    testWidgets('Test Logout', (tester) async {
+      await tester.pumpWidget(app.MyApp());
+      final Finder username =
+          find.widgetWithText(TextFormField, 'Enter Username');
+      final Finder password =
+          find.widgetWithText(TextFormField, 'Enter Password');
+      final Finder submit = find.widgetWithText(ElevatedButton, 'LOGIN');
+
+      expect(find.text('Login Succesful'), findsNothing);
+
+      //input credentials
+      await tester.enterText(username, 'walapanamanata');
+      await addDelay(3000);
+      await tester.enterText(password, '123');
+      await addDelay(3000);
+      await tester.tap(submit);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      // must succeed
+      expect(find.text('Login Succesful'), findsOneWidget);
+
+      final Finder me = find.widgetWithIcon(IconButton, Icons.list_alt);
+
+      await tester.tap(me);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Profile'), findsOneWidget);
+      final Finder out = find.widgetWithText(TextButton, 'LOGOUT');
+
+      await tester.tap(out);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+    });
+
+    testWidgets('Overall- test features at once', (tester) async {
       await tester.pumpWidget(app.MyApp());
       final Finder register = find.widgetWithText(TextButton, 'REGISTER');
 
@@ -315,18 +450,6 @@ void main() {
       expect(
           find.text('please sana mahanap mo to at gumana ka'), findsOneWidget);
 
-      await tester.enterText(username, 'walapanamanata');
-      await addDelay(3000);
-      await tester.enterText(password, '123');
-      await addDelay(3000);
-      await tester.tap(submit);
-      await addDelay(3000);
-      await tester.pumpAndSettle();
-      await addDelay(3000);
-
-      // must succeed
-      expect(find.text('Login Succesful'), findsOneWidget);
-
       final listFinder = find.byType(Scrollable);
       final itemFinder = find.widgetWithText(TextButton, 'walapanamanata');
 
@@ -339,6 +462,37 @@ void main() {
 
       // may makita dapat na post ko na nasa sobrang layong page
       expect(itemFinder, findsOneWidget);
+
+      final Finder edit = find.widgetWithIcon(IconButton, Icons.edit);
+
+      await tester.tap(edit);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      expect(find.text('Edit Post'), findsOneWidget);
+
+      final Finder box =
+          find.widgetWithText(TextField, 'Type your post here...');
+      final Finder go = find.widgetWithText(ElevatedButton, 'EDIT POST');
+
+      await tester.enterText(box, 'please lang');
+      await tester.pumpAndSettle();
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
+      await tester.tap(go);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
+
+      expect(find.text('please lang'), findsOneWidget);
+
+      final Finder delete = find.widgetWithIcon(IconButton, Icons.delete);
+
+      await tester.tap(delete);
+      await addDelay(3000);
+      await tester.pumpAndSettle();
+      await addDelay(3000);
     });
   });
 }

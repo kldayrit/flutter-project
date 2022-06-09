@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'self_post.dart';
 import 'user_model.dart' as user;
 
 class ShowPostEditPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _ShowPostEditPageState extends State<ShowPostEditPage> {
       padding: EdgeInsets.all(0),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Create Post'),
+          title: const Text('Edit Post'),
         ),
         body: ListView(
           children: <Widget>[
@@ -110,6 +111,12 @@ class _ShowPostEditPageState extends State<ShowPostEditPage> {
                     );
                   }
                   Navigator.pop(context);
+                  Navigator.pop(context);
+                  //pushes second page again
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ShowSelfPostPage()));
                 },
               ),
             ),
